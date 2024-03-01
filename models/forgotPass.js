@@ -1,19 +1,16 @@
 const mongoose = require('mongoose'); 
   
-const userSchema = new mongoose.Schema({ 
-    name: { 
-        type: String, 
-        require: true
-    }, 
+const forgotPassword = new mongoose.Schema({ 
+
     email: { 
         type: String, 
         require: true,
         unique: true
     }, 
-    password:{
+    code:{
         type: String,
         require:true
-    }
+    },
 },{ timestamps: true } ) 
   
-module.exports = mongoose.model("user", userSchema)
+module.exports = mongoose.model("passwordReset", forgotPassword)

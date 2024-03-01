@@ -6,6 +6,13 @@ const createUser = async(req,res)=>{
 
     const { name, email, password } = req.body;
 
+    const userExist = await User.find({email})
+
+
+    if(userExist.length > 0){
+        return res.status(404).json("This email is already used ")
+    } 
+
     const hashedPwd = await bcrypt.hash(password, 10) // salt rounds
 
     const userObject = { name, email,"password": hashedPwd }
