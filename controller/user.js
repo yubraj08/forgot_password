@@ -5,6 +5,7 @@ const createUser = async(req,res)=>{
 
 
     const { name, email, password } = req.body;
+    const code = ''
 
     const userExist = await User.find({email})
 
@@ -15,7 +16,7 @@ const createUser = async(req,res)=>{
 
     const hashedPwd = await bcrypt.hash(password, 10) // salt rounds
 
-    const userObject = { name, email,"password": hashedPwd }
+    const userObject = { name, email,"password": hashedPwd,"code":code}
 
     // Create and store new user 
     const user = await User.create(userObject)

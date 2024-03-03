@@ -4,7 +4,6 @@ const shortId = require('shortid')
 
 
 const User = require("../models/user")
-const resetPassword = require("../models/forgotPass")
 
 const forgot = async(req,res)=>{
 
@@ -46,13 +45,16 @@ const forgot = async(req,res)=>{
 
 
       console.log('Email sent: ' + info.response);
-      return res.status(200).json("Email send to " + email )
     }
   });
-  const userObject = { email,code }
-  const reset = await resetPassword.create(userObject)
 
-  if (reset) return res.status(200).json("Code send")
+  const reset = await User.updateOne({ email: email }, 
+    { $set: { code: code } },
+    { upsert: false });
+
+  if (reset) {
+    return res.status(400).json("Code send to " + email);
+  }
 }
 
 module.exports = {
